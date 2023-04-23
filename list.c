@@ -1,18 +1,11 @@
 #include "list.h"
 
-//Todo: Control duplicates, remove, update...;
 adjList* newList(){
     adjList* newIstanceOfList = (adjList*) malloc(sizeof(adjList));
     newIstanceOfList->head = NULL;
     newIstanceOfList->last = NULL;
     newIstanceOfList->len = 0;
     return newIstanceOfList;
-}
-
-char* toLowerStr(char* str, int len) {
-    char* lowerStr = (char*) malloc(sizeof(char) * len);
-    for(int i=0;i<len;i++) *(lowerStr+i) = tolower((*(str+i)));
-    return lowerStr;
 }
 
 void printItem(listNode* ln){
@@ -47,8 +40,17 @@ unsigned int lenght(adjList* l) {
     return len;
 }
 
+bool isIn(adjList* l, char* value) {
+    listNode* current = l->head;
+    while(current != NULL){
+        if(!strcasecmp(current->value, value)) return true;
+        current = current->next;
+    }
+    return false;
+}
+
 bool add(adjList* l, char* value){
-    if(l == NULL) return false;
+    if(l == NULL || isIn(l, value)) return false;
     listNode* newNode = (listNode*) malloc(sizeof(listNode));
     if(newNode == NULL) return false;
 
@@ -73,7 +75,7 @@ listNode* getNode(adjList* l, char* value) {
     if(l == NULL) return NULL;
     listNode* current = l->head;
     while(current != NULL){
-        if(!strcmp(toLowerStr(value, strlen(value)), toLowerStr(current->value, strlen(value)))) return current;
+        if(!strcasecmp(value, current->value)) return current;
         current = current->next;
     }
     return NULL;
@@ -95,4 +97,45 @@ listNode* getNodeByIndex(adjList* l, unsigned int index) {
         }
     }
     return NULL;
+}
+
+bool updateNode(adjList* l, char* value, char* newValue){
+    if(l == NULL) return false;
+
+    listNode* current = l->head;
+    while(current != NULL){
+        if(!strcasecmp(current->value, value)){
+            current->value = newValue;
+            return true;
+        }
+        current = current->next;
+    }
+    return false;
+}
+
+void fixIndex(listNode* current) {
+    while(current != NULL){
+        current->index--;
+        current = current->next;
+    }
+}
+
+bool deleteNode(adjList* l, char* value) {
+    if(l == NULL) return false;
+
+    listNode* current = l->head;
+    while(current != NULL) {
+        if(!strcasecmp(current->value, value)){
+            if(current->prev != NULL) current->prev->next = current->next;
+            else l->head = current->next;
+            if(current->next != NULL) current->next->prev = current->prev;
+            else l->last = current->prev;
+            l->len--;
+            fixIndex(current);
+            free(current);
+            return true;
+        }
+        current = current->next;
+    }
+    return false;
 }

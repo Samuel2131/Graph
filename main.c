@@ -19,5 +19,16 @@ int main() {
     if(ln2 != NULL) printf("\nNode by index = %s", ln2->value);
     else printf("\nNode by index not found...");
 
+    printf("\nRemove : %d", deleteNode(l, "last item"));
+    printf("\nLength : %u", lenght(l));
+    printList(l);
+
+    printf("\nUpdate : %d", updateNode(l, "third item", "last item"));
+    printList(l);
+
+    printf("\nLength a : %u", lenght(l));
+    printf("\n%d\n", add(l, "second item"));
+    printf("\nLength a : %u", lenght(l));
+
     return 0;
 }
