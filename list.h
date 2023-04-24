@@ -12,7 +12,7 @@ typedef struct listNode{
     char* value;
     struct listNode* next;
     struct listNode* prev;
-    //struct adjList* adjL;
+    struct adjList* adjL;
 }listNode;
 
 typedef struct adjList{
@@ -22,9 +22,10 @@ typedef struct adjList{
 }adjList;
 
 extern adjList* newList();
+extern void printItem(listNode* ln);
 extern void printList(adjList* l);
 extern unsigned int lenght(adjList* l);
-extern bool add(adjList* l, char* value);
+extern bool addNode(adjList* l, char* value);
 extern listNode* getNode(adjList* l, char* value);
 extern listNode* getNodeByIndex(adjList* l, unsigned int index);
 extern bool updateNode(adjList* l, char* value, char* newValue);

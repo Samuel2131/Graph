@@ -1,7 +1,7 @@
-#include "list.h"
+#include "graph.h"
 
 int main() {
-
+    /*
     adjList* l = newList();
     printList(l);
     printf("%d\n", add(l, "New item"));
@@ -29,6 +29,22 @@ int main() {
     printf("\nLength a : %u", lenght(l));
     printf("\n%d\n", add(l, "second item"));
     printf("\nLength a : %u", lenght(l));
+    */
+
+    graph* g = newGraph();
+    printf("\nAddress graph : %p", g);
+
+    printGraph(g);
+
+    addVertex(g, "First vertex of graph");
+    printGraph(g);
+
+    addVertex(g, "Second vertex of graph");
+    addVertex(g, "Third vertex of graph");
+    printGraph(g);
+
+    printValueGraph(g);
+    printf("\nNum vertices : %u", graphSize(g));
 
     return 0;
 }

@@ -11,11 +11,11 @@ adjList* newList(){
 void printItem(listNode* ln){
     if(ln == NULL) printf("\nNULL\n");
     else {
-        printf("\nValue node: %s", ln->value);
-        printf("\nIndex node: %u", ln->index);
-        printf("\nThis node: %p", ln);
-        printf("\nNext node: %p", ln->next);
-        printf("\nPrev node: %p\n", ln->prev);
+        printf("\n\tValue node: %s", ln->value);
+        printf("\n\tIndex node: %u", ln->index);
+        printf("\n\tThis node: %p", ln);
+        printf("\n\tNext node: %p", ln->next);
+        printf("\n\tPrev node: %p\n", ln->prev);
     }
 }
 
@@ -30,14 +30,7 @@ void printList(adjList* l){
 }
 
 unsigned int lenght(adjList* l) {
-    if(l == NULL) return 0;
-    unsigned int len = 0;
-    listNode* current = l->head;
-    while(current != NULL){
-        len++;
-        current = current->next;
-    }
-    return len;
+    return l->len;
 }
 
 bool isIn(adjList* l, char* value) {
@@ -49,11 +42,12 @@ bool isIn(adjList* l, char* value) {
     return false;
 }
 
-bool add(adjList* l, char* value){
+bool addNode(adjList* l, char* value){
     if(l == NULL || isIn(l, value)) return false;
     listNode* newNode = (listNode*) malloc(sizeof(listNode));
     if(newNode == NULL) return false;
 
+    newNode->adjL = NULL;
     newNode->value = value;
     newNode->next = NULL;
     if(l->head == NULL) {
