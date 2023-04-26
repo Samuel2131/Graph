@@ -29,6 +29,15 @@ void printList(adjList* l){
     }
 }
 
+void printAdjList(adjList* l) {
+    if(l == NULL) return;
+    listNode* current = l->head;
+    while(current != NULL){
+        printf(" %s,", current->value);
+        current = current->next;
+    }
+}
+
 unsigned int lenght(adjList* l) {
     return l->len;
 }
@@ -42,7 +51,18 @@ bool isIn(adjList* l, char* value) {
     return false;
 }
 
-bool addNode(adjList* l, char* value){
+bool addNode(adjList* l, listNode* ln){
+    if(l == NULL || isIn(l, ln->value)) return false;
+
+    ln->prev = l->last;
+    if(l->head == NULL) l->head = ln;
+    if(l->last != NULL) l->last->next = ln;
+    l->last = ln;
+    l->len++;
+    return true;
+}
+
+bool addNewNode(adjList* l, char* value){
     if(l == NULL || isIn(l, value)) return false;
     listNode* newNode = (listNode*) malloc(sizeof(listNode));
     if(newNode == NULL) return false;

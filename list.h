@@ -24,10 +24,13 @@ typedef struct adjList{
 extern adjList* newList();
 extern void printItem(listNode* ln);
 extern void printList(adjList* l);
+extern void printAdjList(adjList* l);
 extern unsigned int lenght(adjList* l);
-extern bool addNode(adjList* l, char* value);
+extern bool addAdjNode(adjList* l, listNode* ln);
+extern bool addNewNode(adjList* l, char* value);
 extern listNode* getNode(adjList* l, char* value);
 extern listNode* getNodeByIndex(adjList* l, unsigned int index);
+extern bool isIn(adjList* l, char* value);
 extern bool updateNode(adjList* l, char* value, char* newValue);
 extern bool deleteNode(adjList* l, char* value);
 
