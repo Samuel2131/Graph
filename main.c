@@ -66,5 +66,22 @@ int main() {
     printGraph(g);
     printAdjMatrix(g);
 
+    if(isConnected(g, "C", "E")) printf("\nYes\n");
+    else printf("\nNo\n");
+
+    printf("\nUpdate graph node : %d", updateGraphNode(g, "C", "C++"));
+    printGraph(g);
+    printAdjMatrix(g);
+    printValueGraph(g);
+
+    printf("\nDelete graph node : %d", deleteGraphNode(g, "A"));
+    printf("\nDelete graph node : %d", deleteGraphNode(g, "B"));
+    printf("\nDelete graph node : %d", deleteGraphNode(g, "C++"));
+    printf("\nDelete graph node : %d", deleteGraphNode(g, "D"));
+    printf("\nDelete graph node : %d", deleteGraphNode(g, "E"));
+    printGraph(g);
+    printAdjMatrix(g);
+    printValueGraph(g);
+
     return 0;
 }

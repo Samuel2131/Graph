@@ -8,6 +8,13 @@ graph* newGraph(){
     return newIstanceOfGraph;
 }
 
+bool** createMatrix(unsigned int size){
+    bool** newMatrix;
+    newMatrix = (bool**) malloc(size * sizeof(bool*));
+    for(unsigned int i=0;i<size;i++) *(newMatrix+i) = (bool*) malloc(size * sizeof(bool));
+    return newMatrix;
+}
+
 void printGraph(graph* g){
     if(g == NULL) return;
 
@@ -63,10 +70,8 @@ void setMatrix(bool** oldMatrix, bool** newMatrix, unsigned int numVertex){
 bool addVertex(graph* g, char* value) {
     if(addNewNode(g->adjlist, value)){
         g->numVertices++;
-        bool** newMatrix;
-        newMatrix = (bool**) malloc(g->numVertices * sizeof(bool*));
-        for(unsigned int i=0;i<g->numVertices;i++) *(newMatrix+i) = (bool*) malloc(g->numVertices * sizeof(bool));
-
+        bool** newMatrix = createMatrix(g->numVertices);
+        if(newMatrix == NULL) return false;
         setMatrix(g->adjMatrix, newMatrix, g->numVertices);
 
         if(g->adjMatrix != NULL) free(g->adjMatrix);
@@ -99,4 +104,57 @@ int getNumArch(graph* g, char* value){
     }
 }
 
+bool isConnected(graph* g, char* node1, char* node2){
+    if(g == NULL) return false;
+    listNode* n1 = getNode(g->adjlist, node1);
+    listNode* n2 = getNode(g->adjlist, node2);
+    if(n1 == NULL || n2 == NULL) return false;
+    return g->adjMatrix[n1->index][n2->index];
+}
+
+bool updateGraphNode(graph* g, char* oldValue, char* newValue){
+    if(g == NULL) return false;
+    listNode* node = getNode(g->adjlist, oldValue);
+    if(node == NULL || isIn(g->adjlist, newValue)) return false;
+
+    for(unsigned int i=0;i<g->numVertices;i++){
+        if(g->adjMatrix[i][node->index]) getNode(getNodeByIndex(g->adjlist, i)->adjL, oldValue)->value = newValue;
+    }
+    return updateNode(g->adjlist, oldValue, newValue);
+}
+
+bool deleteGraphNode(graph* g, char* value){
+    if(g == NULL) return false;
+    listNode* node = getNode(g->adjlist, value);
+    if(node == NULL) return false;
+
+    unsigned int index = node->index;
+    for(unsigned int i=0;i<g->numVertices;i++){
+        if(g->adjMatrix[i][index]) deleteNode(getNodeByIndex(g->adjlist, i)->adjL, value);
+    }
+
+    bool** newMatrix = createMatrix(g->numVertices-1);
+    unsigned int x = 0, y = 0;
+    for(unsigned int i=0;i<g->numVertices;i++){
+        if(i == index) continue;
+        for(unsigned int j=0;j<g->numVertices;j++) {
+            if(j != index) newMatrix[x][y] = g->adjMatrix[i][j];
+            else continue;
+            y++;
+        }
+        y = 0;
+        x++;
+    }
+    g->adjMatrix = newMatrix;
+
+    if(deleteNode(g->adjlist, value)){
+        g->numVertices--;
+        return true;
+    }
+    else return false;
+}
+
+//bool clearGraph;
+
+//bool deallocGraph;
 
