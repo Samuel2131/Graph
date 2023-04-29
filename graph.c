@@ -15,8 +15,27 @@ bool** createMatrix(unsigned int size){
     return newMatrix;
 }
 
+bool isEmpty(graph* g){
+    if(g->numVertices == 0){
+        printf("\nGraph is empty...\n");
+        return true;
+    }
+    return false;
+}
+
+unsigned int getMaxNode(graph* g){
+    unsigned int max = 0;
+    listNode* current = g->adjlist->head;
+    while(current != NULL){
+        if(strlen(current->value) > max) max = strlen(current->value);
+        current = current->next;
+    }
+    return max;
+}
+
 void printGraph(graph* g){
     if(g == NULL) return;
+    if(isEmpty(g)) return;
 
     printf("\nNum graph vertices : %u", g->numVertices);
     listNode* current = g->adjlist->head;
@@ -34,6 +53,7 @@ void printGraph(graph* g){
 
 void printValueGraph(graph* g){
     if(g == NULL) return;
+    if(isEmpty(g)) return;
 
     listNode* current = g->adjlist->head;
     unsigned int index = 1;
@@ -51,6 +71,23 @@ unsigned int graphSize(graph* g){
 }
 
 void printAdjMatrix(graph* g){
+    if(g == NULL) return;
+    if(isEmpty(g)) return;
+
+    if(g->adjMatrix != NULL){
+        printf("\n");
+        for(unsigned int i=0;i<g->numVertices;i++) printf("%s%s ", (i==0 ? "    " : " "),getNodeByIndex(g->adjlist, i)->value);
+        for(unsigned int i=0;i<g->numVertices;i++){
+            printf("\n");
+            for(unsigned int j=0;j<g->numVertices;j++){
+                if(j == 0) printf(" %s ", getNodeByIndex(g->adjlist, i)->value);
+                printf(" %d ", g->adjMatrix[i][j]);
+            }
+        }
+    }
+}
+
+void printAdjMatrixWithoutNodes(graph* g){
     if(g->adjMatrix != NULL){
         for(unsigned int i=0;i<g->numVertices;i++){
             printf("\n");
@@ -154,7 +191,28 @@ bool deleteGraphNode(graph* g, char* value){
     else return false;
 }
 
-//bool clearGraph;
+bool clearGraph(graph* g){
+    if(g == NULL) return false;
 
-//bool deallocGraph;
+    listNode* current = g->adjlist->last;
+    while(current != NULL){
+        listNode* temp = current;
+        current = current->prev;
+        free(temp);
+    }
+    free(g->adjlist);
+    free(g->adjMatrix);
+    g->adjlist = newList();
+    g->adjMatrix = NULL;
+    g->numVertices = 0;
+
+    return true;
+}
+
+void deallocGraph(graph* g){
+    if(g == NULL) return;
+    clearGraph(g);
+    free(g->adjlist);
+    free(g);
+}
 

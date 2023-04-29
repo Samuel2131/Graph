@@ -1,36 +1,6 @@
 #include "graph.h"
 
 int main() {
-    /*
-    adjList* l = newList();
-    printList(l);
-    printf("%d\n", add(l, "New item"));
-    printf("%d\n", add(l, "Second item"));
-    printf("%d\n", add(l, "Third item"));
-    printf("%d\n", add(l, "Last item"));
-    printList(l);
-    printf("\nList len = %d", lenght(l));
-
-    listNode* ln = getNode(l, "LasT iTeM");
-    if(ln != NULL) printf("\nNode by value = %s", ln->value);
-    else printf("\nNode by value not found...");
-
-    listNode* ln2 = getNodeByIndex(l, 10);
-    if(ln2 != NULL) printf("\nNode by index = %s", ln2->value);
-    else printf("\nNode by index not found...");
-
-    printf("\nRemove : %d", deleteNode(l, "last item"));
-    printf("\nLength : %u", lenght(l));
-    printList(l);
-
-    printf("\nUpdate : %d", updateNode(l, "third item", "last item"));
-    printList(l);
-
-    printf("\nLength a : %u", lenght(l));
-    printf("\n%d\n", add(l, "second item"));
-    printf("\nLength a : %u", lenght(l));
-    */
-
     graph* g = newGraph();
     printf("\nAddress graph : %p", g);
 
@@ -76,12 +46,18 @@ int main() {
 
     printf("\nDelete graph node : %d", deleteGraphNode(g, "A"));
     printf("\nDelete graph node : %d", deleteGraphNode(g, "B"));
-    printf("\nDelete graph node : %d", deleteGraphNode(g, "C++"));
-    printf("\nDelete graph node : %d", deleteGraphNode(g, "D"));
-    printf("\nDelete graph node : %d", deleteGraphNode(g, "E"));
+    printGraph(g);
+    printAdjMatrixWithoutNodes(g);
+    printValueGraph(g);
+    /*
+    printf("\nClear graph : %d", clearGraph(g));
     printGraph(g);
     printAdjMatrix(g);
     printValueGraph(g);
+    */
 
+    printf("\nBefore : %d", g->numVertices);
+    deallocGraph(g);
+    printf("\nAfter : %d", g->numVertices);
     return 0;
 }
