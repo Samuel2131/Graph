@@ -31,3 +31,22 @@
 1682765489 c:\users\user\onedrive\desktop\c\simplegraph\graph.h
 	"list.h"
 
+1682851207 source:c:\users\user\onedrive\desktop\c\graph\graph.c
+	"graph.h"
+
+1682851205 c:\users\user\onedrive\desktop\c\graph\graph.h
+	"list.h"
+
+1682850464 c:\users\user\onedrive\desktop\c\graph\list.h
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	<ctype.h>
+
+1682850464 source:c:\users\user\onedrive\desktop\c\graph\list.c
+	"list.h"
+
+1682850464 source:c:\users\user\onedrive\desktop\c\graph\main.c
+	"graph.h"
+

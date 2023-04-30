@@ -87,7 +87,7 @@ void printAdjMatrix(graph* g){
     }
 }
 
-void printAdjMatrixWithoutNodes(graph* g){
+void printAdjMatrixWithoutVertex(graph* g){
     if(g->adjMatrix != NULL){
         for(unsigned int i=0;i<g->numVertices;i++){
             printf("\n");

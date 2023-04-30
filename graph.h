@@ -3,7 +3,7 @@
 #ifndef GRAPH_H_INCLUDED
 #define GRAPH_H_INCLUDED
 
-//Todo: djikstra, add multiple nodes;
+//Todo: djikstra, add multiple nodes, delete arch;
 typedef struct graph{
     unsigned int numVertices;
     struct adjList* adjlist;
@@ -14,7 +14,7 @@ extern graph* newGraph();
 extern void printGraph(graph* g);
 extern void printValueGraph(graph* g);
 extern void printAdjMatrix(graph* g);
-extern void printAdjMatrixWithoutNodes(graph* g);
+extern void printAdjMatrixWithoutVertex(graph* g);
 extern unsigned int graphSize(graph* g);
 extern bool addVertex(graph* g, char* value);
 extern bool addArch(graph* g, char* value1, char* value2);

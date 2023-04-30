@@ -47,7 +47,7 @@ int main() {
     printf("\nDelete graph node : %d", deleteGraphNode(g, "A"));
     printf("\nDelete graph node : %d", deleteGraphNode(g, "B"));
     printGraph(g);
-    printAdjMatrixWithoutNodes(g);
+    printAdjMatrixWithoutVertex(g);
     printValueGraph(g);
     /*
     printf("\nClear graph : %d", clearGraph(g));
