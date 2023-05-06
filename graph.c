@@ -118,6 +118,14 @@ bool addVertex(graph* g, char* value) {
     else return false;
 }
 
+bool fillGraph(graph* g, char** arrStr, unsigned int numVertex){
+    if(g == NULL) return false;
+    for(int i=0;i<numVertex;i++){
+        addVertex(g, *(arrStr+i));
+    }
+    return true;
+}
+
 bool addArch(graph* g, char* value1, char* value2){
     if(g == NULL || (!isIn(g->adjlist, value1)) || (!isIn(g->adjlist, value2))) return false;
     listNode* nodeValue1 = getNode(g->adjlist, value1);
@@ -160,14 +168,14 @@ bool updateGraphNode(graph* g, char* oldValue, char* newValue){
     return updateNode(g->adjlist, oldValue, newValue);
 }
 
-bool deleteGraphNode(graph* g, char* value){
+bool deleteGraphNode(graph* g, char* vertex){
     if(g == NULL) return false;
-    listNode* node = getNode(g->adjlist, value);
+    listNode* node = getNode(g->adjlist, vertex);
     if(node == NULL) return false;
 
     unsigned int index = node->index;
     for(unsigned int i=0;i<g->numVertices;i++){
-        if(g->adjMatrix[i][index]) deleteNode(getNodeByIndex(g->adjlist, i)->adjL, value);
+        if(g->adjMatrix[i][index]) deleteNode(getNodeByIndex(g->adjlist, i)->adjL, vertex);
     }
 
     bool** newMatrix = createMatrix(g->numVertices-1);
@@ -184,11 +192,21 @@ bool deleteGraphNode(graph* g, char* value){
     }
     g->adjMatrix = newMatrix;
 
-    if(deleteNode(g->adjlist, value)){
+    if(deleteNode(g->adjlist, vertex)){
         g->numVertices--;
         return true;
     }
     else return false;
+}
+
+bool deleteArch(graph* g, char* vertex1, char* vertex2){
+    if(g == NULL || !isConnected(g, vertex1, vertex2)) return false;
+    listNode* v1 = getNode(g->adjlist, vertex1);
+    listNode* v2 = getNode(g->adjlist, vertex2);
+    deleteNode(v1->adjL, vertex2);
+    g->adjMatrix[v1->index][v2->index] = 0;
+
+    return true;
 }
 
 bool clearGraph(graph* g){
