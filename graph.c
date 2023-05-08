@@ -105,7 +105,7 @@ void setMatrix(bool** oldMatrix, bool** newMatrix, unsigned int numVertex){
 }
 
 bool addVertex(graph* g, char* value) {
-    if(addNewNode(g->adjlist, value)){
+    if(addNewNode(g->adjlist, value) != NULL){
         g->numVertices++;
         bool** newMatrix = createMatrix(g->numVertices);
         if(newMatrix == NULL) return false;
@@ -126,13 +126,13 @@ bool fillGraph(graph* g, char** arrStr, unsigned int numVertex){
     return true;
 }
 
-bool addArch(graph* g, char* value1, char* value2){
+bool addArch(graph* g, char* value1, char* value2, unsigned int weight){
     if(g == NULL || (!isIn(g->adjlist, value1)) || (!isIn(g->adjlist, value2))) return false;
     listNode* nodeValue1 = getNode(g->adjlist, value1);
     if(nodeValue1->adjL == NULL) nodeValue1->adjL = newList();
     if(isIn(nodeValue1->adjL, value2)) return false;
 
-    if(addNewNode(nodeValue1->adjL, value2)){
+    if(setArch(nodeValue1->adjL, value2, getNode(g->adjlist, value1), weight)){
         g->adjMatrix[nodeValue1->index][getNode(g->adjlist, value2)->index] = 1;
         return true;
     }
@@ -234,3 +234,10 @@ void deallocGraph(graph* g){
     free(g);
 }
 
+void bestRoute(graph* g, char* startVertex, char* endVertex){
+    if(g == NULL || !isIn(g->adjlist, startVertex) || !isIn(g->adjlist, endVertex)) return;
+    adjList* ratedVertex = newList();
+    adjList* unratedVertex = newList();
+
+    //Todo: create function that return all graph vertex;
+}

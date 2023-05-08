@@ -16,13 +16,13 @@ int main() {
 
     printValueGraph(g);
     printf("\nNum vertices : %u", graphSize(g));
-    printf("\nAdd arch result : %d", addArch(g, "A", "B"));
-    printf("\nAdd arch result : %d", addArch(g, "B", "C"));
-    printf("\nAdd arch result : %d", addArch(g, "A", "C"));
-    printf("\nAdd arch result : %d", addArch(g, "A", "A"));
-    printf("\nAdd arch result : %d", addArch(g, "C", "A"));
-    printf("\nAdd arch result : %d", addArch(g, "B", "D"));
-    printf("\nAdd arch result : %d", addArch(g, "D", "B"));
+    printf("\nAdd arch result : %d", addArch(g, "A", "B", 1));
+    printf("\nAdd arch result : %d", addArch(g, "B", "C", 2));
+    printf("\nAdd arch result : %d", addArch(g, "A", "C", 5));
+    printf("\nAdd arch result : %d", addArch(g, "A", "A", 3));
+    printf("\nAdd arch result : %d", addArch(g, "C", "A", 2));
+    printf("\nAdd arch result : %d", addArch(g, "B", "D", 10));
+    printf("\nAdd arch result : %d", addArch(g, "D", "B", 8));
     printGraph(g);
 
     printf("\nNumero di archi collegati ad D = %d", getNumArch(g, "D"));
@@ -31,8 +31,8 @@ int main() {
     printf("\n");
 
     addVertex(g, "E");
-    printf("\nAdd arch result : %d", addArch(g, "E", "D"));
-    printf("\nAdd arch result : %d", addArch(g, "C", "E"));
+    printf("\nAdd arch result : %d", addArch(g, "E", "D", 0));
+    printf("\nAdd arch result : %d", addArch(g, "C", "E", 10));
     printGraph(g);
     printAdjMatrix(g);
 

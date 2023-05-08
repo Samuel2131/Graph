@@ -12,23 +12,24 @@
 	<string.h>
 	<ctype.h>
 
-1683369015 source:c:\users\user\onedrive\desktop\c\simplegraph\main.c
+1683558056 source:c:\users\user\onedrive\desktop\c\simplegraph\main.c
 	"graph.h"
 
-1682504275 c:\users\user\onedrive\desktop\c\simplegraph\list.h
+1683558224 c:\users\user\onedrive\desktop\c\simplegraph\list.h
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	<string.h>
+	<math.h>
 	<ctype.h>
 
-1682504425 source:c:\users\user\onedrive\desktop\c\simplegraph\list.c
+1683557500 source:c:\users\user\onedrive\desktop\c\simplegraph\list.c
 	"list.h"
 
-1683368743 source:c:\users\user\onedrive\desktop\c\simplegraph\graph.c
+1683557237 source:c:\users\user\onedrive\desktop\c\simplegraph\graph.c
 	"graph.h"
 
-1683368820 c:\users\user\onedrive\desktop\c\simplegraph\graph.h
+1683556880 c:\users\user\onedrive\desktop\c\simplegraph\graph.h
 	"list.h"
 
 1682851207 source:c:\users\user\onedrive\desktop\c\graph\graph.c

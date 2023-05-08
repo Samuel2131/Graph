@@ -18,7 +18,7 @@ extern void printAdjMatrixWithoutVertex(graph* g);
 extern unsigned int graphSize(graph* g);
 extern bool addVertex(graph* g, char* value);
 extern bool fillGraph(graph* g, char** arrStr, unsigned int numVertex);
-extern bool addArch(graph* g, char* value1, char* value2);
+extern bool addArch(graph* g, char* value1, char* value2, unsigned int weight);
 extern int getNumArch(graph* g, char* value);
 extern bool isConnected(graph* g, char* node1, char* node2);
 extern bool updateGraphNode(graph* g, char* oldValue, char* newValue);

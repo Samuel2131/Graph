@@ -33,7 +33,7 @@ void printAdjList(adjList* l) {
     if(l == NULL) return;
     listNode* current = l->head;
     while(current != NULL){
-        printf(" %s,", current->value);
+        printf(" %s(weight=%u), ", current->value, current->arch->weight);
         current = current->next;
     }
 }
@@ -62,7 +62,20 @@ bool addNode(adjList* l, listNode* ln){
     return true;
 }
 
-bool addNewNode(adjList* l, char* value){
+bool setArch(adjList* l, char* value, listNode* n, unsigned int weight){
+    listNode* newNode = addNewNode(l, value);
+    if(newNode == NULL) return false;
+
+    arch* a = (arch*) malloc(sizeof(arch));
+    if(a == NULL) return false;
+    a->startingNode = n;
+    a->weight = weight;
+    newNode->arch = a;
+
+    return true;
+}
+
+listNode* addNewNode(adjList* l, char* value){
     if(l == NULL || isIn(l, value)) return false;
     listNode* newNode = (listNode*) malloc(sizeof(listNode));
     if(newNode == NULL) return false;
@@ -82,7 +95,7 @@ bool addNewNode(adjList* l, char* value){
     l->last = newNode;
     l->len++;
 
-    return true;
+    return newNode;
 }
 
 listNode* getNode(adjList* l, char* value) {
