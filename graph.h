@@ -26,5 +26,6 @@ extern bool deleteGraphNode(graph* g, char* vertex);
 extern bool deleteArch(graph* g, char* vertex1, char* vertex2);
 extern bool clearGraph(graph* g);
 extern void deallocGraph(graph* g);
+extern void bestRoute(graph* g, char* startVertex, char* endVertex);
 
 #endif

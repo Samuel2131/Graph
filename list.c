@@ -15,7 +15,12 @@ void printItem(listNode* ln){
         printf("\n\tIndex node: %u", ln->index);
         printf("\n\tThis node: %p", ln);
         printf("\n\tNext node: %p", ln->next);
-        printf("\n\tPrev node: %p\n", ln->prev);
+        printf("\n\tPrev node: %p", ln->prev);
+        if(ln->dI != NULL){
+            printf("\n\tPrev dijkstra step : %s", (ln->dI->prevStep != NULL) ? ln->dI->prevStep->value : "NULL");
+            printf("\n\tPotential : %lf\n", ln->dI->potential);
+        }
+        else printf("\n");
     }
 }
 
@@ -83,6 +88,7 @@ listNode* addNewNode(adjList* l, char* value){
     newNode->adjL = NULL;
     newNode->value = value;
     newNode->next = NULL;
+    newNode->dI = NULL;
     if(l->head == NULL) {
         newNode->index = 0;
         l->head = newNode;
@@ -147,7 +153,17 @@ void fixIndex(listNode* current) {
     }
 }
 
-bool deleteNode(adjList* l, char* value) {
+listNode* shift(adjList* l){
+    if(l == NULL) return NULL;
+    listNode* n = l->head;
+    n->next->prev = NULL;
+    l->head = n->next;
+    n->next = NULL;
+    l->len--;
+    return n;
+}
+
+bool deleteNode(adjList* l, char* value, bool freeNode) {
     if(l == NULL) return false;
 
     listNode* current = l->head;
@@ -159,10 +175,51 @@ bool deleteNode(adjList* l, char* value) {
             else l->last = current->prev;
             l->len--;
             fixIndex(current);
-            free(current);
+            if(freeNode) free(current);
             return true;
         }
         current = current->next;
     }
     return false;
 }
+
+adjList* copyList(adjList* l){
+    if(l == NULL) return NULL;
+    adjList* lCopy = newList();
+
+    listNode* current = l->head;
+    while(current != NULL){
+        listNode* n = addNewNode(lCopy, current->value);
+        n->dI = (dijkstraInfo*) malloc(sizeof(dijkstraInfo));
+        n->dI->potential = INFINITY;
+        n->dI->prevStep = NULL;
+        n->adjL = current->adjL;
+        current = current->next;
+    }
+
+    return lCopy;
+}
+
+char* getMinValue(adjList* l){
+    listNode* current = l->head->next;
+    double min = l->head->dI->potential;
+    char* minValue = l->head->value;
+    while(current != NULL){
+        if(current->dI->potential < min) {
+            min = current->dI->potential;
+            minValue = current->value;
+        }
+        current = current->next;
+    }
+    return minValue;
+}
+
+void switchMin(adjList* l1, adjList* l2){
+    listNode* n = getNode(l2, getMinValue(l2));
+    deleteNode(l2, n->value, false);
+    n->next = NULL;
+    n->prev = NULL;
+    addNode(l1, n);
+}
+
+
