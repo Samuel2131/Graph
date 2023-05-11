@@ -23,11 +23,16 @@ int main() {
     printf("\nAdd arch result : %d", addArch(g, "A", "C", 8));
     printf("\nAdd arch result : %d", addArch(g, "B", "E", 5));
     printf("\nAdd arch result : %d", addArch(g, "B", "D", 2));
+    printf("\nAdd arch result : %d", addArch(g, "A", "G", 16));
+    printf("\nAdd arch result : %d", addArch(g, "F", "G", 2));
     printf("\nAdd arch result : %d", addArch(g, "D", "C", 2));
     printf("\nAdd arch result : %d", addArch(g, "D", "F", 7));
     printf("\nAdd arch result : %d", addArch(g, "C", "F", 5));
     printf("\nAdd arch result : %d", addArch(g, "E", "G", 8));
-    printf("\nAdd arch result : %d", addArch(g, "F", "G", 2));
+    printf("\nAdd arch result : %d", addArch(g, "B", "G", 20));
+
+    addVertex(g, "I");
+
     printGraph(g);
 
     printf("\nNumero di archi collegati ad D = %d", getNumArch(g, "D"));
@@ -36,9 +41,9 @@ int main() {
     printf("\n");
 
     printValueGraph(g);
-    bestRoute(g, "A", "B");
 
-    return 0;
+    printf("\nCost to arrive to G node = %lf", calculateRouteCost(g, "G"));
+
     addVertex(g, "E");
     printf("\nAdd arch result : %d", addArch(g, "E", "D", 0));
     printf("\nAdd arch result : %d", addArch(g, "C", "E", 10));
@@ -71,9 +76,11 @@ int main() {
 
     */
 
-    printf("\nBefore : %d", g->numVertices);
+    printf("\nCost to arrive to G node = %lf", calculateRouteCost(g, "G"));
+
+    printf("\nBefore : %u", g->numVertices);
     deallocGraph(g);
-    printf("\nAfter : %d", g->numVertices);
+    printf("\nAfter : %u", g->numVertices);
 
     char** arr;
     arr = (char**) malloc(sizeof(char*) * 10);

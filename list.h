@@ -50,5 +50,6 @@ extern listNode* shift(adjList* l);
 extern bool deleteNode(adjList* l, char* value, bool freeNode);
 extern adjList* copyList(adjList* l);
 extern void switchMin(adjList* l1, adjList* l2);
+extern void deallocList(adjList* l);
 
 #endif

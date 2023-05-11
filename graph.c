@@ -126,6 +126,61 @@ bool fillGraph(graph* g, char** arrStr, unsigned int numVertex){
     return true;
 }
 
+void bestRoute(graph* g){
+    if(g == NULL) return;
+    adjList* ratedVertex = newList();
+    adjList* unratedVertex = copyList(g->adjlist);
+    addNode(ratedVertex, shift(unratedVertex));
+
+    if(ratedVertex->head->adjL == NULL) return;
+    for(unsigned int i=0;i<ratedVertex->head->adjL->len;i++){
+        listNode* v = getNodeByIndex(ratedVertex->head->adjL, i);
+        listNode* uv = getNode(unratedVertex, v->value);
+        if(uv != NULL){
+            uv->dI->potential = v->arch->weight;
+            uv->dI->prevStep = ratedVertex->head;
+        }
+    }
+
+    while(true){
+        switchMin(ratedVertex, unratedVertex);
+        if(unratedVertex->len == 0) break;
+        if(ratedVertex->last->adjL != NULL && ratedVertex->last->dI->potential != INFINITY){
+            for(unsigned int i=0;i<ratedVertex->last->adjL->len;i++){
+                listNode* v = getNodeByIndex(ratedVertex->last->adjL, i);
+                listNode* unratedV = getNode(unratedVertex, v->value);
+                if(unratedV != NULL && (unratedV->dI->potential == INFINITY || unratedV->dI->potential > (ratedVertex->last->dI->potential + v->arch->weight))) {
+                    unratedV->dI->potential = ratedVertex->last->dI->potential + v->arch->weight;
+                    unratedV->dI->prevStep = ratedVertex->last;
+                }
+            }
+        }
+    }
+
+    for(unsigned int i=0;i<g->adjlist->len;i++){
+        listNode* v = getNodeByIndex(g->adjlist, i);
+        v->dI = getNode(ratedVertex, v->value)->dI;
+    }
+    deallocList(ratedVertex);
+    deallocList(unratedVertex);
+}
+
+double calculateRouteCost(graph* g, char* arrive){
+    if(g == NULL || !isIn(g->adjlist, arrive)) return INFINITY;
+    bestRoute(g);
+    char* startGraphValue = g->adjlist->head->value;
+    listNode* endVertex = getNode(g->adjlist, arrive);
+    if(endVertex->dI == NULL) return INFINITY;
+    double cost = endVertex->dI->potential;
+    printf("\nRoute : \n");
+    do{
+        printf("(%s)<-", endVertex->dI->prevStep->value);
+        endVertex = endVertex->dI->prevStep;
+    }while(endVertex != NULL && endVertex->value != startGraphValue);
+    if(endVertex == NULL || endVertex->value != startGraphValue) return INFINITY;
+    return cost;
+}
+
 bool addArch(graph* g, char* value1, char* value2, unsigned int weight){
     if(g == NULL || (!isIn(g->adjlist, value1)) || (!isIn(g->adjlist, value2))) return false;
     listNode* nodeValue1 = getNode(g->adjlist, value1);
@@ -212,13 +267,7 @@ bool deleteArch(graph* g, char* vertex1, char* vertex2){
 bool clearGraph(graph* g){
     if(g == NULL) return false;
 
-    listNode* current = g->adjlist->last;
-    while(current != NULL){
-        listNode* temp = current;
-        current = current->prev;
-        free(temp);
-    }
-    free(g->adjlist);
+    deallocList(g->adjlist);
     free(g->adjMatrix);
     g->adjlist = newList();
     g->adjMatrix = NULL;
@@ -229,34 +278,7 @@ bool clearGraph(graph* g){
 
 void deallocGraph(graph* g){
     if(g == NULL) return;
-    clearGraph(g);
-    free(g->adjlist);
+    deallocList(g->adjlist);
+    free(g->adjMatrix);
     free(g);
-}
-//Todo: add prevStep, add best route for each add vertex;
-void bestRoute(graph* g, char* startVertex, char* endVertex){
-    if(g == NULL || !isIn(g->adjlist, startVertex) || !isIn(g->adjlist, endVertex)) return;
-    adjList* ratedVertex = newList();
-    adjList* unratedVertex = copyList(g->adjlist);
-    addNode(ratedVertex, shift(unratedVertex));
-
-    for(unsigned int i=0;i<ratedVertex->head->adjL->len;i++){
-        listNode* v = getNodeByIndex(ratedVertex->head->adjL, i);
-        getNode(unratedVertex, v->value)->dI->potential = v->arch->weight;
-    }
-
-    while(true){
-        switchMin(ratedVertex, unratedVertex);
-        if(unratedVertex->len == 0) break;
-        for(unsigned int i=0;i<ratedVertex->last->adjL->len;i++){
-            listNode* v = getNodeByIndex(ratedVertex->last->adjL, i);
-            listNode* unratedV = getNode(unratedVertex, v->value);
-            if(unratedV->dI->potential == INFINITY || unratedV->dI->potential > (ratedVertex->last->dI->potential + v->arch->weight)) unratedV->dI->potential = ratedVertex->last->dI->potential + v->arch->weight;
-        }
-    }
-
-    printf("\nRated vertex : ");
-    printList(ratedVertex);
-    printf("\nUnrated vertex : ");
-    printList(unratedVertex);
 }

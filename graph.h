@@ -3,7 +3,6 @@
 #ifndef GRAPH_H_INCLUDED
 #define GRAPH_H_INCLUDED
 
-//Todo: djikstra;
 typedef struct graph{
     unsigned int numVertices;
     struct adjList* adjlist;
@@ -24,8 +23,8 @@ extern bool isConnected(graph* g, char* node1, char* node2);
 extern bool updateGraphNode(graph* g, char* oldValue, char* newValue);
 extern bool deleteGraphNode(graph* g, char* vertex);
 extern bool deleteArch(graph* g, char* vertex1, char* vertex2);
+extern double calculateRouteCost(graph* g, char* arrive);
 extern bool clearGraph(graph* g);
 extern void deallocGraph(graph* g);
-extern void bestRoute(graph* g, char* startVertex, char* endVertex);
 
 #endif

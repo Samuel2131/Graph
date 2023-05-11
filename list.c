@@ -13,9 +13,6 @@ void printItem(listNode* ln){
     else {
         printf("\n\tValue node: %s", ln->value);
         printf("\n\tIndex node: %u", ln->index);
-        printf("\n\tThis node: %p", ln);
-        printf("\n\tNext node: %p", ln->next);
-        printf("\n\tPrev node: %p", ln->prev);
         if(ln->dI != NULL){
             printf("\n\tPrev dijkstra step : %s", (ln->dI->prevStep != NULL) ? ln->dI->prevStep->value : "NULL");
             printf("\n\tPotential : %lf\n", ln->dI->potential);
@@ -220,6 +217,18 @@ void switchMin(adjList* l1, adjList* l2){
     n->next = NULL;
     n->prev = NULL;
     addNode(l1, n);
+}
+
+void deallocList(adjList* l){
+    if(l == NULL) return;
+
+    listNode* current = l->last;
+    while(current != NULL){
+        listNode* temp = current;
+        current = current->prev;
+        free(temp);
+    }
+    free(l);
 }
 
 
